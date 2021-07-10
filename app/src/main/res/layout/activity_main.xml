@@ -44,7 +44,8 @@
             android:layout_weight="1"
             android:background="@color/purple_200"
             android:src="@android:drawable/ic_menu_send"
-            app:tint="@color/white" />
+            app:tint="@color/white"
+            android:onClick="sendMessage"/>
 
     </LinearLayout>
 
