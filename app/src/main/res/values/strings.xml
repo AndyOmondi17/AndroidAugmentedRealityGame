@@ -2,4 +2,5 @@
     <string name="app_name">AndroidCat</string>
     <string name="balloons_in_scene">Balloons Left: 22</string>
     <string name="button_shoot">shoot</string>
+    <string name="user_message">User Message</string>
 </resources>
