@@ -39,13 +39,13 @@ public class MessageAdapter extends RecyclerView.Adapter {
     }
 
     @Override
-    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
         // this method is use to set data to our layout file.
         Message message = messageArrayList.get(position);
         switch (message.getSender()) {
             case "user":
                 // below line is to set the text to our text view of user layout
-                ((User) holder).user.setText(message.getMessage());
+                ((User)holder).user.setText(message.getMessage());
                 break;
             case "bot":
                 // below line is to set the text to our text view of bot layout
@@ -82,7 +82,7 @@ public class MessageAdapter extends RecyclerView.Adapter {
         public User(@NonNull View itemView) {
             super(itemView);
             // initializing with id.
-            user= itemView.findViewById(R.id.botMessage);
+            user= itemView.findViewById(R.id.userMessage);
         }
     }
 
@@ -95,7 +95,7 @@ public class MessageAdapter extends RecyclerView.Adapter {
         public Bot (@NonNull View itemView) {
             super(itemView);
             // initializing with id.
-            bot = itemView.findViewById(R.id.userMessage);
+            bot = itemView.findViewById(R.id.botMessage);
         }
     }
 }

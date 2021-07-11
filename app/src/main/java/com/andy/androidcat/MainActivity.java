@@ -7,6 +7,7 @@ import android.widget.ImageButton;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.android.volley.Request;
@@ -28,6 +29,7 @@ public class MainActivity extends AppCompatActivity  {
     private EditText userMsgEdt;
     private final String USER_KEY = "user";
     private final String BOT_KEY = "bot";
+    private final String mshape = "mshape";
 
     // creating a variable for
     // our volley request queue.
@@ -52,6 +54,41 @@ public class MainActivity extends AppCompatActivity  {
         messageArrayList = new ArrayList<>();
 
 
+        sendMsg.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+//                 checking if the message entered
+        // by user is empty or not.
+            if (userMsgEdt.getText().toString().isEmpty())
+            {
+                // if the edit text is empty display a toast message.
+                Toast.makeText(MainActivity.this, "Please enter your message..", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+        // calling a method to send message
+        // to our bot to get response.
+        sendMessage(userMsgEdt.getText().toString());
+
+        // below line we are setting text in our edit text as empty
+        userMsgEdt.setText("");
+            }
+        });
+
+
+        // on below line we are initialing our adapter class and passing our array lit to it.
+        messageAdapter = new MessageAdapter(messageArrayList, this);
+
+        // below line we are creating a variable for our linear layout manager.
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(MainActivity.this, RecyclerView.VERTICAL, false);
+
+        // below line is to set layout
+        // manager to our recycler view.
+        chats.setLayoutManager(linearLayoutManager);
+
+        // below line we are setting
+        // adapter to our recycler view.
+        chats.setAdapter(messageAdapter);
     }
 
     private void sendMessage(String userMsg) {
@@ -63,7 +100,7 @@ public class MainActivity extends AppCompatActivity  {
         // url for our brain
         // make sure to add mshape for uid.
         // make sure to add your url.
-        String url = "Enter you API URL here" + userMsg;
+        String url = "http://api.brainshop.ai/get?bid=157717&key=tWqoOjWt7xBNkebf&uid=[1]&msg"+userMsg;
 
         // creating a variable for our request queue.
         RequestQueue queue = Volley.newRequestQueue(MainActivity.this);
@@ -71,7 +108,7 @@ public class MainActivity extends AppCompatActivity  {
         // on below line we are making a json object request for a get request and passing our url .
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
             @Override
-            public void onResponse(JSONObject response) {
+            public void onResponse(JSONObject response){
                 try {
                     // in on response method we are extracting data
                     // from json response and adding this response to our array list.
@@ -97,26 +134,11 @@ public class MainActivity extends AppCompatActivity  {
             }
         });
 
+
+
         // at last adding json object
         // request to our queue.
         queue.add(jsonObjectRequest);
     }
 
-
-    public void sendMessage(View view) {
-        // checking if the message entered
-        // by user is empty or not.
-        if (userMsgEdt.getText().toString().isEmpty()) {
-            // if the edit text is empty display a toast message.
-            Toast.makeText(MainActivity.this, "Please enter your message..", Toast.LENGTH_SHORT).show();
-            return;
-        }
-
-        // calling a method to send message
-        // to our bot to get response.
-        sendMessage(userMsgEdt.getText().toString());
-
-        // below line we are setting text in our edit text as empty
-        userMsgEdt.setText("");
-    }
 }
